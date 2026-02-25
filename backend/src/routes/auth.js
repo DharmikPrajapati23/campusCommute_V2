@@ -88,18 +88,7 @@ authRouter.post("/login", async (req, res) => {
       { expiresIn: "24h" }
     );
 
-<<<<<<< HEAD
     // ✅ Return token in response body (no cookie — blocked cross-origin on Render)
-=======
-    // Set secure HTTP-only cookie
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "None",
-      maxAge: 24 * 60 * 60 * 1000,
-    });
-
->>>>>>> 2fc0578740fa1af3ebcd51b05b2c8e5a845e2b51
     res.status(200).json({
       success: true,
       token,
@@ -159,18 +148,7 @@ authRouter.post("/verify-otp", async (req, res) => {
         { expiresIn: "24h" }
       );
 
-<<<<<<< HEAD
       // ✅ Return token in response body
-=======
-      // Set HTTP-only cookie
-      res.cookie("token", authToken, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "None",
-        maxAge: 24 * 60 * 60 * 1000,
-      });
-
->>>>>>> 2fc0578740fa1af3ebcd51b05b2c8e5a845e2b51
       res.status(200).json({
         message: "Verification successful",
         token: authToken,
@@ -187,8 +165,6 @@ authRouter.post("/verify-otp", async (req, res) => {
 });
 
 module.exports = authRouter;
-
-<<<<<<< HEAD
 
 // const express = require("express");
 // const mongoose = require("mongoose");

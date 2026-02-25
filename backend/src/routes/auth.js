@@ -373,6 +373,3 @@ module.exports = authRouter;
 
 
 // module.exports = authRouter;
-=======
-module.exports = authRouter;
->>>>>>> 2fc0578740fa1af3ebcd51b05b2c8e5a845e2b51

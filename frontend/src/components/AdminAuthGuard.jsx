@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../utils/axiosInstance';
 import { BASE_URL } from '../utils/constants';
 import { removeUser } from '../utils/userSlice';
 
@@ -22,9 +22,7 @@ const AdminAuthGuard = ({ children }) => {
         }
 
         // Verify token with backend
-        const response = await axios.get(`${BASE_URL}/admin/verify`, {
-          withCredentials: true
-        });
+        const response = await api.get(`/admin/verify`);
 
         if (!response.data.success) {
           // Token is invalid, clear user and redirect

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../utils/axiosInstance";
 import { BASE_URL } from "../utils/constants";
 
 // const BASE_URL = `http://localhost:${process.env.BACKEND_PORT}` || "http://localhost:3000";
@@ -14,11 +14,10 @@ const BusPassDownloadCard = () => {
     setSuccessMsg("");
     setErrorMsg("");
     try {
-      const response = await axios.get(
-        `${BASE_URL}/download-bus-pass`,
+      const response = await api.get(
+        `/download-bus-pass`,
         {
           responseType: "blob",
-          withCredentials: true,
         }
       );
       let filename = "bus-pass.pdf";

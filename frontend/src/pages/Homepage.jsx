@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../utils/axiosInstance';
 import { motion } from 'framer-motion';
 import { BASE_URL } from "../utils/constants";
 
@@ -26,8 +26,7 @@ function Homepage() {
     setError(null);
 
     try {
-      const response = await axios.get(BASE_URL + `/getbuses?city=${formattedCity}`
-      );
+      const response = await api.get(`/getbuses?city=${formattedCity}`);
       setBuses(response.data);
     } catch (error) {
       setError('No buses found for this city.');

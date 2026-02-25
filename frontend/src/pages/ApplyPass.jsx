@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../utils/axiosInstance";
 import PassForm from "./PassForm";
 import { BASE_URL } from "../utils/constants";
 import { useSelector } from "react-redux";
@@ -44,7 +44,7 @@ const ApplyPass = ({ user }) => {
     const checkPassStatus = async () => {
       try {
         setLoadingCheck(true);
-        const res = await axios.get(`${BASE_URL}/pass/status`, { withCredentials: true });
+        const res = await api.get(`/pass/status`);
 
         if (res.data && res.data.active) {
           setIsEligible(false);
@@ -87,9 +87,8 @@ const ApplyPass = ({ user }) => {
   const handleDownload = async () => {
     setDownloading(true);
     try {
-      const response = await axios.get(`${BASE_URL}/download-bus-pass`, {
+      const response = await api.get(`/download-bus-pass`, {
         responseType: "blob",
-        withCredentials: true,
       });
       let filename = "bus-pass.pdf";
       const disposition = response.headers["content-disposition"];
@@ -132,10 +131,9 @@ const ApplyPass = ({ user }) => {
     setShowPayment(true);
 
     try {
-      const response = await axios.post(
-        `${BASE_URL}/submit-form`,
-        formData,
-        { withCredentials: true }
+      const response = await api.post(
+        `/submit-form`,
+        formData
       );
       setServerMessage(response.data.message);
     } catch (error) {

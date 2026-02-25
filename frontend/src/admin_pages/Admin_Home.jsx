@@ -30,7 +30,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Bus, Users, School, LogOut } from "lucide-react";
 import { motion } from "framer-motion";
-import axios from "axios";
+import api from "../utils/axiosInstance";
 import { BASE_URL } from "../utils/constants";
 
 const Admin_Home = () => {

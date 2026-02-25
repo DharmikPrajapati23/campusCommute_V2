@@ -15,7 +15,7 @@
 
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../utils/axiosInstance";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
@@ -60,8 +60,7 @@ const EditProfile = ({ user }) => {
     }
 
     try {
-      const res = await axios.patch(BASE_URL + "/profile/edit", formData, {
-        withCredentials: true,
+      const res = await api.patch("/profile/edit", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -85,7 +84,7 @@ const EditProfile = ({ user }) => {
   // Fetch user after update
   const fetchUser = async () => {
     try {
-      const res = await axios.get(BASE_URL + "/profile/view", { withCredentials: true });
+      const res = await api.get("/profile/view");
       dispatch(addUser(res?.data));
     } catch (err) {
       console.error("Failed to fetch user:", err);

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../utils/axiosInstance";
 import { BASE_URL } from "../utils/constants";
 
 import {
@@ -29,9 +29,8 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        `${BASE_URL}/api/signup`,
-        // "http://localhost:3000/signup",
+      const res = await api.post(
+        `/api/signup`,
         formData
       );
       alert("Signup successful");

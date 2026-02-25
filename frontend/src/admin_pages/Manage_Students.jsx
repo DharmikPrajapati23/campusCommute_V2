@@ -1,7 +1,7 @@
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../utils/axiosInstance";
 import CloseIcon from "@mui/icons-material/Close";
 import { IconButton } from "@mui/material";
 
@@ -34,9 +34,8 @@ const ManageStudents = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/admin/getstudents",
-          { withCredentials: true }  // ✅ FIXED - Added withCredentials
+        const response = await api.get(
+          "/admin/getstudents"
         );
         setStudents(response.data);
       } catch (error) {

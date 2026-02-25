@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../utils/axiosInstance";
 
 const Manage_Bus = () => {
   const [buses, setBuses] = useState([]);
@@ -33,9 +33,7 @@ const Manage_Bus = () => {
 
   const fetchBuses = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/admin/getallbuses", {
-        withCredentials: true,
-      });
+      const res = await api.get("/admin/getallbuses");
       setBuses(res.data);
     } catch (error) {
       setError("Error fetching buses.");
@@ -60,17 +58,15 @@ const Manage_Bus = () => {
         );
         if (!confirmEdit) return;
 
-        const res = await axios.put(
-          `http://localhost:3000/admin/updatebus/${editingId}`,
-          formData,
-          { withCredentials: true }
+        const res = await api.put(
+          `/admin/updatebus/${editingId}`,
+          formData
         );
         setSuccess(res.data.message);
       } else {
-        const res = await axios.post(
-          "http://localhost:3000/admin/addbuses",
-          formData,
-          { withCredentials: true }
+        const res = await api.post(
+          "/admin/addbuses",
+          formData
         );
         setSuccess(res.data);
       }
@@ -111,9 +107,7 @@ const Manage_Bus = () => {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`http://localhost:3000/admin/deletebus/${id}`, {
-        withCredentials: true,
-      });
+      await api.delete(`/admin/deletebus/${id}`);
       fetchBuses();
     } catch (error) {
       setError("Error deleting bus.");

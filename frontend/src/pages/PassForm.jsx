@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../utils/axiosInstance";
 import { BASE_URL } from "../utils/constants";
 
 
@@ -28,9 +28,7 @@ const PassForm = ({
     const fetchStatus = async () => {
       try {
         setLoadingStatus(true);
-        const res = await axios.get(`${BASE_URL}/pass/status`, {
-          withCredentials: true,
-        });
+        const res = await api.get(`/pass/status`);
 
 
         if (res.data && res.data.active) {
@@ -58,16 +56,15 @@ const PassForm = ({
       setProcessing(true);
 
 
-      const orderRes = await axios.post(
-        `${BASE_URL}/payment/create`,
+      const orderRes = await api.post(
+        `/payment/create`,
         {
           amount: parseInt(feeAmount.toString()),
           currency: "INR",
           receipt: `receipt_${enrollment}`,
           stand,
           city,
-        },
-        { withCredentials: true }
+        }
       );
 
 
@@ -93,14 +90,13 @@ const PassForm = ({
           // After successful payment in Razorpay popup
           try {
             // Send payment success to server
-            const saveRes = await axios.post(
-              `${BASE_URL}/payment/success`,
+            const saveRes = await api.post(
+              `/payment/success`,
               {
                 orderId: response.razorpay_order_id,
                 paymentId: response.razorpay_payment_id,
                 status: "paid",
-              },
-              { withCredentials: true }
+              }
             );
 
 
@@ -112,9 +108,7 @@ const PassForm = ({
               setJustActivated(true);
             } else {
               // Fallback: re-query status endpoint to get latest pass (robust)
-              const status = await axios.get(`${BASE_URL}/pass/status`, {
-                withCredentials: true,
-              });
+              const status = await api.get(`/pass/status`);
               if (status.data && status.data.active) {
                 setPassActive(true);
                 setExpiryDate(status.data.expiryDate);

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 import { removeUser } from "../utils/userSlice";
-import axios from "axios";
+import api from "../utils/axiosInstance";
 import { motion, AnimatePresence } from "framer-motion";
 
 
@@ -30,10 +30,9 @@ function Navbar() {
   const handleLogout = async () => {
     try {
       const token = localStorage.getItem("token");
-      await axios.post(
-        BASE_URL + "/logout",
-        {},
-        { headers: { Authorization: `Bearer ${token}` } }
+      await api.post(
+        "/logout",
+        {}
       );
     } catch (err) {
       console.error(err);

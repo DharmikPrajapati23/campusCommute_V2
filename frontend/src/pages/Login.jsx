@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../utils/axiosInstance";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
@@ -36,7 +36,7 @@ const Login = () => {
     setLoading(true);
     setError("");
     try {
-      const res = await axios.post(`${BASE_URL}/login`, {
+      const res = await api.post(`/login`, {
         enrollment: formData.enrollment,
         password: formData.password,
       });
@@ -59,7 +59,7 @@ const Login = () => {
     setError("");
     setSuccess("");
     try {
-      const res = await axios.post(`${BASE_URL}/signup`, {
+      const res = await api.post(`/signup`, {
         name: formData.name,
         enrollment: formData.enrollment,
         email: formData.email,
@@ -101,8 +101,8 @@ const Login = () => {
       const signupToken = localStorage.getItem("signup_token");
       if (!signupToken) throw new Error("Token not found");
 
-      const res = await axios.post(
-        `${BASE_URL}/verify-otp`,
+      const res = await api.post(
+        `/verify-otp`,
         { otp: formData.otp },
         { headers: { Authorization: `Bearer ${signupToken}` } }
       );

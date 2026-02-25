@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import axios from "axios";
+import api from "../utils/axiosInstance";
 import ReactMarkdown from "react-markdown";
 // import {LLM_URL} from "../utils/constants";
 
@@ -41,12 +41,11 @@ function Chat() {
     ]);
 
     try {
-      const response = await axios.post(
-        BASE_URL + "/chatbot/chat",
+      const response = await api.post(
+        "/chatbot/chat",
         {
           message: currentQuestion,
-        },
-        { withCredentials: true }
+        }
       );
 
       const aiResponse =

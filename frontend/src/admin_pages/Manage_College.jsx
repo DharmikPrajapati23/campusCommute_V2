@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../utils/axiosInstance";
 import { BASE_URL } from "../utils/constants";
 
 const Manage_College = () => {
@@ -23,9 +23,7 @@ const Manage_College = () => {
 
   const fetchColleges = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}/admin/addCollege`, {
-        withCredentials: true,
-      });
+      const res = await api.get(`/admin/addCollege`);
       setColleges(res.data);
     } catch (error) {
       setError("Error fetching college details.");
@@ -45,17 +43,15 @@ const Manage_College = () => {
 
     try {
       if (isEditing && editingId) {
-        await axios.put(
-          `${BASE_URL}/admin/updateCollege/${editingId}`,
-          formData,
-          { withCredentials: true }
+        await api.put(
+          `/admin/updateCollege/${editingId}`,
+          formData
         );
         setSuccess("College updated successfully.");
       } else {
-        const res = await axios.post(
-          `${BASE_URL}/admin/addCollege`,
-          formData,
-          { withCredentials: true }
+        const res = await api.post(
+          `/admin/addCollege`,
+          formData
         );
         setSuccess(res.data.message);
       }
@@ -87,9 +83,7 @@ const Manage_College = () => {
     if (!window.confirm("Are you sure you want to delete this college?")) return;
 
     try {
-      await axios.delete(`${BASE_URL}/admin/deleteCollege/${id}`, {
-        withCredentials: true,
-      });
+      await api.delete(`/admin/deleteCollege/${id}`);
       fetchColleges();
     } catch (error) {
       setError("Error deleting college.");

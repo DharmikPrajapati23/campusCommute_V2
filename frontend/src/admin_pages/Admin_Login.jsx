@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../utils/axiosInstance";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
@@ -33,13 +33,12 @@ const Admin_Login = () => {
     try {
       if (isLoginForm) {
         // Login API Call
-        const res = await axios.post(
-          `${BASE_URL}/admin/login`,
+        const res = await api.post(
+          `/admin/login`,
           {
             id: formData.id,
             password: formData.password,
-          },
-          { withCredentials: true }
+          }
         );
         dispatch(addUser(res.data.user));
         localStorage.setItem("adminToken", res.data.token);
@@ -48,8 +47,8 @@ const Admin_Login = () => {
         setTimeout(() => navigate("/admin/home"), 1000);
       } else {
         // Signup API Call
-        const res = await axios.post(
-          `${BASE_URL}/admin/signup`,
+        const res = await api.post(
+          `/admin/signup`,
           {
             id: formData.id,
             password: formData.password,

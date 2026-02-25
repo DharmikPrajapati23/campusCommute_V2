@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Send } from "lucide-react";
-import axios from "axios";
+import api from "../utils/axiosInstance";
 import ReactMarkdown from "react-markdown";
 import { BASE_URL } from "../utils/constants";
 import chatbotIcon from "../image/image.png";
@@ -27,10 +27,9 @@ const FloatingChatbot = () => {
     setIsTyping(true);
 
     try {
-      const response = await axios.post(
-        `${BASE_URL}/chatbot/chat`,
-        { message: trimmed },
-        { withCredentials: true }
+      const response = await api.post(
+        `/chatbot/chat`,
+        { message: trimmed }
       );
 
       const aiResponse = response.data?.response || "Sorry, I couldn't understand that.";

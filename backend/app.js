@@ -1,4 +1,6 @@
 const express = require("express");
+const path = require("path");
+const fs = require("fs");
 const connectDB = require("./src/database/signup.database");
 const User = require("./src/model/signup.user")
 const bcrypt = require("bcrypt");
@@ -50,6 +52,38 @@ app.use("/", paymentRouter);
 app.use("/", admintokenRoutes);
 
 app.use("/", chatRouter);
+
+// Serve static frontend files
+// Check multiple possible locations for the frontend build
+const possibleFrontendPaths = [
+  path.join(__dirname, "../frontend/dist"),
+  path.join(__dirname, "../../frontend/dist"),
+  path.join(__dirname, "frontend/dist"),
+];
+
+let frontendBuildPath = null;
+for (const p of possibleFrontendPaths) {
+  try {
+    if (fs.existsSync(p)) {
+      frontendBuildPath = p;
+      console.log("✓ Found frontend build at:", frontendBuildPath);
+      break;
+    }
+  } catch (e) {
+    // Continue to next path
+  }
+}
+
+if (frontendBuildPath) {
+  app.use(express.static(frontendBuildPath));
+  
+  // Catch-all route: serve index.html for React Router
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(frontendBuildPath, "index.html"));
+  });
+} else {
+  console.warn("⚠️  Frontend build not found. API-only mode.");
+}
 
 connectDB()
   .then(async () => {

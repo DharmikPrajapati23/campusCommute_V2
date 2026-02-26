@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import api from "../utils/axiosInstance";
-import { BASE_URL } from "../utils/constants";
 
 
 const PassForm = ({

@@ -3,7 +3,6 @@ import api from "../utils/axiosInstance";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
-import { BASE_URL } from "../utils/constants";
 import loginAnimation from "../animation/loginAnimation.gif";
 
 const Login = () => {

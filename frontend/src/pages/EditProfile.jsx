@@ -16,7 +16,6 @@
 
 import { useState, useEffect } from "react";
 import api from "../utils/axiosInstance";
-import { BASE_URL } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { FaPencilAlt } from "react-icons/fa";

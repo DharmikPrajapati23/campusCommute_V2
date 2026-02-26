@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Send } from "lucide-react";
 import api from "../utils/axiosInstance";
 import ReactMarkdown from "react-markdown";
-import { BASE_URL } from "../utils/constants";
 import chatbotIcon from "../image/image.png";
 
 const FloatingChatbot = () => {

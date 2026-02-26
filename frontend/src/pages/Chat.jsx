@@ -1,9 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import api from "../utils/axiosInstance";
 import ReactMarkdown from "react-markdown";
-// import {LLM_URL} from "../utils/constants";
-
-import { BASE_URL } from "../utils/constants";
 
 
 function Chat() {

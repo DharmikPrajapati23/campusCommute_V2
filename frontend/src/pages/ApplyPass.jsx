@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import api from "../utils/axiosInstance";
 import PassForm from "./PassForm";
-import { BASE_URL } from "../utils/constants";
 import { useSelector } from "react-redux";
 
 const ApplyPass = ({ user }) => {

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { BASE_URL } from "../utils/constants";
 import { removeUser } from "../utils/userSlice";
 import api from "../utils/axiosInstance";
 import { motion, AnimatePresence } from "framer-motion";

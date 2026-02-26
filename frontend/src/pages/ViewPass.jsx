@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import api from "../utils/axiosInstance";
-import { BASE_URL } from "../utils/constants";
 
 // const BASE_URL = `http://localhost:${process.env.BACKEND_PORT}` || "http://localhost:3000";
 

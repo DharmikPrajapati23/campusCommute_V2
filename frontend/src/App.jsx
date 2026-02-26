@@ -24,24 +24,50 @@ import AdminAuthGuard from "./components/AdminAuthGuard";
 import FloatingChatbot from "./pages/FloatingChatbot";
 import { addUser } from "./utils/userSlice";
 
-// Small wrapper so we can use hooks with Provider
+import { useNavigate } from "react-router-dom";
+import { setNavigator } from "./utils/navigationHelper";
+
+
 const AppRoutes = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // Rehydrate user from localStorage on every refresh
   useEffect(() => {
+    // Register navigate for axiosInstance interceptor
+    setNavigator(navigate);
+
+    // Rehydrate user from localStorage on refresh
     const storedUser = localStorage.getItem("user");
     const token = localStorage.getItem("token");
     if (storedUser && token) {
       try {
         dispatch(addUser(JSON.parse(storedUser)));
       } catch {
-        // bad JSON -> clear
         localStorage.removeItem("user");
         localStorage.removeItem("token");
       }
     }
-  }, [dispatch]);
+  }, [navigate, dispatch]);
+
+
+// // Small wrapper so we can use hooks with Provider
+// const AppRoutes = () => {
+//   const dispatch = useDispatch();
+
+//   // Rehydrate user from localStorage on every refresh
+//   useEffect(() => {
+//     const storedUser = localStorage.getItem("user");
+//     const token = localStorage.getItem("token");
+//     if (storedUser && token) {
+//       try {
+//         dispatch(addUser(JSON.parse(storedUser)));
+//       } catch {
+//         // bad JSON -> clear
+//         localStorage.removeItem("user");
+//         localStorage.removeItem("token");
+//       }
+//     }
+//   }, [dispatch]);
 
   return (
     <BrowserRouter basename="/">

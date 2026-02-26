@@ -56,11 +56,26 @@ function Chat() {
     } catch (error) {
       console.error("API error:", error.response?.data || error.message);
 
+      // ✅ Show specific error message from backend if available
+      const errMsg =
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        "❌ Server error. Please try again.";
+
       setChatHistory((prev) => [
         ...prev,
-        { type: "answer", content: "❌ Server error. Please try again." },
+        { type: "answer", content: errMsg },
       ]);
     }
+
+    // } catch (error) {
+    //   console.error("API error:", error.response?.data || error.message);
+
+    //   setChatHistory((prev) => [
+    //     ...prev,
+    //     { type: "answer", content: "❌ Server error. Please try again." },
+    //   ]);
+    // }
 
     setGeneratingAnswer(false);
   }
@@ -106,18 +121,16 @@ function Chat() {
         {chatHistory.map((chat, index) => (
           <div
             key={index}
-            className={`mb-4 ${
-              chat.type === "question"
+            className={`mb-4 ${chat.type === "question"
                 ? "text-right"
                 : "text-left"
-            }`}
+              }`}
           >
             <div
-              className={`inline-block max-w-[80%] p-3 rounded-lg ${
-                chat.type === "question"
+              className={`inline-block max-w-[80%] p-3 rounded-lg ${chat.type === "question"
                   ? "bg-blue-500 text-white rounded-br-none"
                   : "bg-gray-100 text-gray-800 rounded-bl-none"
-              }`}
+                }`}
             >
               <ReactMarkdown>{chat.content}</ReactMarkdown>
             </div>
@@ -156,11 +169,10 @@ function Chat() {
           />
           <button
             type="submit"
-            className={`px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors ${
-              generatingAnswer
+            className={`px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors ${generatingAnswer
                 ? "opacity-50 cursor-not-allowed"
                 : ""
-            }`}
+              }`}
             disabled={generatingAnswer}
           >
             Send

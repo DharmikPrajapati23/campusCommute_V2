@@ -56,17 +56,39 @@ function Chat() {
     } catch (error) {
       console.error("API error:", error.response?.data || error.message);
 
-      // ✅ Show specific error message from backend if available
-      const errMsg =
-        error.response?.data?.message ||
-        error.response?.data?.error ||
-        "❌ Server error. Please try again.";
+      const status = error.response?.status;
+      let errMsg = "❌ Server error. Please try again.";
+
+      if (status === 429) {
+        errMsg = "⏳ Chatbot is busy. Please wait a moment and try again.";
+      } else if (status === 503) {
+        errMsg = "🔌 Chatbot service is unavailable. Please try again later.";
+      } else if (status === 504) {
+        errMsg = "⏱️ Chatbot is starting up. Please try again in 30 seconds.";
+      } else if (error.response?.data?.message) {
+        errMsg = "❌ " + error.response.data.message;
+      }
 
       setChatHistory((prev) => [
         ...prev,
         { type: "answer", content: errMsg },
       ]);
     }
+
+    // } catch (error) {
+    //   console.error("API error:", error.response?.data || error.message);
+
+    //   // ✅ Show specific error message from backend if available
+    //   const errMsg =
+    //     error.response?.data?.message ||
+    //     error.response?.data?.error ||
+    //     "❌ Server error. Please try again.";
+
+    //   setChatHistory((prev) => [
+    //     ...prev,
+    //     { type: "answer", content: errMsg },
+    //   ]);
+    // }
 
     // } catch (error) {
     //   console.error("API error:", error.response?.data || error.message);
@@ -122,14 +144,14 @@ function Chat() {
           <div
             key={index}
             className={`mb-4 ${chat.type === "question"
-                ? "text-right"
-                : "text-left"
+              ? "text-right"
+              : "text-left"
               }`}
           >
             <div
               className={`inline-block max-w-[80%] p-3 rounded-lg ${chat.type === "question"
-                  ? "bg-blue-500 text-white rounded-br-none"
-                  : "bg-gray-100 text-gray-800 rounded-bl-none"
+                ? "bg-blue-500 text-white rounded-br-none"
+                : "bg-gray-100 text-gray-800 rounded-bl-none"
                 }`}
             >
               <ReactMarkdown>{chat.content}</ReactMarkdown>
@@ -170,8 +192,8 @@ function Chat() {
           <button
             type="submit"
             className={`px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors ${generatingAnswer
-                ? "opacity-50 cursor-not-allowed"
-                : ""
+              ? "opacity-50 cursor-not-allowed"
+              : ""
               }`}
             disabled={generatingAnswer}
           >

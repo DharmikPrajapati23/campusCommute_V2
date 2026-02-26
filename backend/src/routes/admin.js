@@ -249,9 +249,16 @@ adminRouter.delete("/admin/deleteCollege/:id", adminAuth, async (req, res) => {
 // ============== Student Routes ============== //
 adminRouter.get("/admin/getstudents", adminAuth, async (req, res) => {
   try {
-    const users = await require("../model/signup.user").find();
-    res.json(users);
+    const User = require("../model/signup.user");
+    const users = await User.find().select("-password");
+    
+    if (!users || users.length === 0) {
+      return res.status(200).json([]);
+    }
+    
+    res.status(200).json(users);
   } catch (error) {
+    console.error("Error fetching students:", error);
     res.status(500).json({ message: "Error fetching students: " + error.message });
   }
 });

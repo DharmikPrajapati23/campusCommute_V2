@@ -203,14 +203,21 @@ const ManageStudents = () => {
                       ([key]) =>
                         !["_id", "createdAt", "updatedAt", "__v"].includes(key)
                     )
-                    .map(([key, value]) => (
-                      <TableRow key={key}>
-                        <TableCell sx={{ fontWeight: "bold", width: "40%" }}>
-                          {key.replace(/([A-Z])/g, " $1").toUpperCase()}
-                        </TableCell>
-                        <TableCell>{value}</TableCell>
-                      </TableRow>
-                    ))}
+                    .map(([key, value]) => {
+                      // Convert objects/arrays to strings
+                      let displayValue = value;
+                      if (typeof value === "object" && value !== null) {
+                        displayValue = JSON.stringify(value);
+                      }
+                      return (
+                        <TableRow key={key}>
+                          <TableCell sx={{ fontWeight: "bold", width: "40%" }}>
+                            {key.replace(/([A-Z])/g, " $1").toUpperCase()}
+                          </TableCell>
+                          <TableCell>{String(displayValue)}</TableCell>
+                        </TableRow>
+                      );
+                    })}
                 </TableBody>
               </Table>
             </TableContainer>

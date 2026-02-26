@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import api from "../utils/axiosInstance";
+import adminApi from "../utils/adminAxiosInstance";
 import { BASE_URL } from "../utils/constants";
 
 const Manage_College = () => {
@@ -23,7 +23,7 @@ const Manage_College = () => {
 
   const fetchColleges = async () => {
     try {
-      const res = await api.get(`/admin/addCollege`);
+      const res = await adminApi.get(`/admin/addCollege`);
       setColleges(res.data);
     } catch (error) {
       setError("Error fetching college details.");
@@ -43,13 +43,13 @@ const Manage_College = () => {
 
     try {
       if (isEditing && editingId) {
-        await api.put(
+        await adminApi.put(
           `/admin/updateCollege/${editingId}`,
           formData
         );
         setSuccess("College updated successfully.");
       } else {
-        const res = await api.post(
+        const res = await adminApi.post(
           `/admin/addCollege`,
           formData
         );
@@ -83,7 +83,7 @@ const Manage_College = () => {
     if (!window.confirm("Are you sure you want to delete this college?")) return;
 
     try {
-      await api.delete(`/admin/deleteCollege/${id}`);
+      await adminApi.delete(`/admin/deleteCollege/${id}`);
       fetchColleges();
     } catch (error) {
       setError("Error deleting college.");

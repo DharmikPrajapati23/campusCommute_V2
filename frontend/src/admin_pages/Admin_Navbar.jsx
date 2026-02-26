@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 import { removeUser } from "../utils/userSlice";
-import api from "../utils/axiosInstance";
+import adminApi from "../utils/adminAxiosInstance";
 import { motion, AnimatePresence } from "framer-motion";
 
 function Admin_Navbar() {
@@ -17,7 +17,7 @@ function Admin_Navbar() {
   const handleLogout = async () => {
     try {
       // Call backend logout endpoint with credentials so the server can clear the cookie.
-      await api.post(`/admin/logout`, {});
+      await adminApi.post(`/admin/logout`, {});
 
       // Clear frontend state and storage
       dispatch(removeUser());

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import api from "../utils/axiosInstance";
+import adminApi from "../utils/adminAxiosInstance";
 
 const Manage_Bus = () => {
   const [buses, setBuses] = useState([]);
@@ -33,7 +33,7 @@ const Manage_Bus = () => {
 
   const fetchBuses = async () => {
     try {
-      const res = await api.get("/admin/getallbuses");
+      const res = await adminApi.get("/admin/getallbuses");
       setBuses(res.data);
     } catch (error) {
       setError("Error fetching buses.");
@@ -58,13 +58,13 @@ const Manage_Bus = () => {
         );
         if (!confirmEdit) return;
 
-        const res = await api.put(
+        const res = await adminApi.put(
           `/admin/updatebus/${editingId}`,
           formData
         );
         setSuccess(res.data.message);
       } else {
-        const res = await api.post(
+        const res = await adminApi.post(
           "/admin/addbuses",
           formData
         );
@@ -107,7 +107,7 @@ const Manage_Bus = () => {
     if (!confirmDelete) return;
 
     try {
-      await api.delete(`/admin/deletebus/${id}`);
+      await adminApi.delete(`/admin/deletebus/${id}`);
       fetchBuses();
     } catch (error) {
       setError("Error deleting bus.");

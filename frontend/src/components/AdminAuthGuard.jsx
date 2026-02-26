@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../utils/axiosInstance";
+import adminApi from "../utils/adminAxiosInstance";
 
 const AdminAuthGuard = ({ children }) => {
   const [isVerified, setIsVerified] = useState(false);
@@ -18,7 +18,7 @@ const AdminAuthGuard = ({ children }) => {
 
       try {
         // ✅ Send admin_token manually since axiosInstance uses "token" by default
-        await api.get("/admin/verify", {
+        await adminApi.get("/admin/verify", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setIsVerified(true);

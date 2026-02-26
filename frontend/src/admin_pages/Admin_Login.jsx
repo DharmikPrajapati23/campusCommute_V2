@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import api from "../utils/axiosInstance";
+import adminApi from "../utils/adminAxiosInstance";
 import { useNavigate } from "react-router-dom";
 import loginAnimation from "../animation/loginAnimation.gif";
 
@@ -28,7 +28,7 @@ const Admin_Login = () => {
     setSuccess("");
     try {
       if (isLoginForm) {
-        const res = await api.post("/admin/login", {
+        const res = await adminApi.post("/admin/login", {
           id: formData.id,
           password: formData.password,
         });
@@ -40,7 +40,7 @@ const Admin_Login = () => {
         setSuccess("Admin login successful. Redirecting...");
         setTimeout(() => navigate("/admin/home"), 1000);
       } else {
-        await api.post("/admin/signup", {
+        await adminApi.post("/admin/signup", {
           id: formData.id,
           password: formData.password,
           secretkey: formData.secretkey,

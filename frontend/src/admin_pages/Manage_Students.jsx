@@ -1,7 +1,7 @@
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import React, { useEffect, useState } from "react";
-import api from "../utils/axiosInstance";
+import adminApi from "../utils/adminAxiosInstance";
 import CloseIcon from "@mui/icons-material/Close";
 import { IconButton } from "@mui/material";
 
@@ -34,7 +34,7 @@ const ManageStudents = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await api.get(
+        const response = await adminApi.get(
           "/admin/getstudents"
         );
         setStudents(response.data);

@@ -30,16 +30,25 @@ const ManageStudents = () => {
   const [students, setStudents] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchStudents = async () => {
       try {
+        setLoading(true);
+        setError("");
         const response = await adminApi.get(
           "/admin/getstudents"
         );
+        console.log("Students fetched:", response.data);
         setStudents(response.data);
       } catch (error) {
+        const errMsg = error?.response?.data?.message || error.message || "Error fetching students";
         console.error("Error fetching students:", error);
+        setError(errMsg);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -97,12 +106,31 @@ const ManageStudents = () => {
           <Typography variant="h5" fontWeight="bold">
             Manage Students
           </Typography>
-          <Button variant="contained" color="success" onClick={exportToExcel}>
+          <Button variant="contained" color="success" onClick={exportToExcel} disabled={students.length === 0}>
             Download Excel
           </Button>
         </Grid>
 
-        <TableContainer component={Paper} elevation={2}>
+        {error && (
+          <div style={{ backgroundColor: "#ffebee", color: "#c62828", padding: "12px", borderRadius: "4px", marginBottom: "16px" }}>
+            <strong>Error:</strong> {error}
+          </div>
+        )}
+
+        {loading && (
+          <Typography sx={{ textAlign: "center", py: 3 }}>
+            Loading students...
+          </Typography>
+        )}
+
+        {!loading && students.length === 0 && !error && (
+          <Typography sx={{ textAlign: "center", py: 3, color: "text.secondary" }}>
+            No students found
+          </Typography>
+        )}
+
+        {!loading && students.length > 0 && (
+          <TableContainer component={Paper} elevation={2}>
           <Table>
             <TableHead>
               <TableRow sx={{ backgroundColor: "#1976d2" }}>
@@ -147,6 +175,7 @@ const ManageStudents = () => {
             </TableBody>
           </Table>
         </TableContainer>
+        )}
       </CardContent>
 
       {/* Student Details Dialog */}

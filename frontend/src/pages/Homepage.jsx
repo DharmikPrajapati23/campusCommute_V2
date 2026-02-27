@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import api from '../utils/axiosInstance';
 import { motion } from 'framer-motion';
 import { useEffect } from "react";
-import api from "../utils/axiosInstance";
 
 function Homepage() {
   const [city, setCity] = useState('');

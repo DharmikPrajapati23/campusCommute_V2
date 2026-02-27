@@ -2,7 +2,10 @@ import axios from "axios";
 import { BACKEND_URL } from "./constants";
 import { navigateTo } from "./navigationHelper";
 
-const api = axios.create({ baseURL: BACKEND_URL });
+const api = axios.create({ 
+  baseURL: BACKEND_URL,
+  timeout: 180000,
+});
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");

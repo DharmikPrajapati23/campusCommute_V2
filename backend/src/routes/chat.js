@@ -20,7 +20,7 @@ router.post("/chatbot/chat", userAuth, async (req, res) => {
       `${LLM_URL}/chatbot/chat`,
       { message, user_name: userName },
       {
-        timeout: 60000,
+        timeout: 180000,
         headers: {
           "Content-Type": "application/json",
           // ✅ These headers tell Cloudflare this is a legitimate API-to-API call

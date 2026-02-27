@@ -3,7 +3,10 @@ import axios from "axios";
 import { BACKEND_URL } from "./constants";
 import { navigateTo } from "./navigationHelper";
 
-const adminApi = axios.create({ baseURL: BACKEND_URL });
+const adminApi = axios.create({
+  baseURL: BACKEND_URL,
+  timeout: 180000,
+});
 
 // ✅ Attach admin_token, not user token
 adminApi.interceptors.request.use((config) => {

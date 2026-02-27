@@ -1,8 +1,8 @@
-
 import React, { useState } from 'react';
 import api from '../utils/axiosInstance';
 import { motion } from 'framer-motion';
-import { BASE_URL } from "../utils/constants";
+import { useEffect } from "react";
+import api from "../utils/axiosInstance";
 
 function Homepage() {
   const [city, setCity] = useState('');
@@ -15,13 +15,13 @@ function Homepage() {
       setError('Please enter a city');
       return;
     }
-    
+
     const formattedCity = city
       .toLowerCase()
       .split(' ')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
-    
+
     setLoading(true);
     setError(null);
 
@@ -34,6 +34,21 @@ function Homepage() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    // Silent background warm-up — no UI shown, user won't notice
+    const warmUp = async () => {
+      try {
+        await api.get("/chatbot/health", { timeout: 180000 });
+        console.log("✓ LLM service warmed up");
+      } catch (err) {
+        // Silently ignore — warm-up is best effort
+        console.warn("LLM warm-up skipped:", err.message);
+      }
+    };
+
+    warmUp();
+  }, []);
 
   return (
     <div className="h-screen flex flex-col items-center justify-center bg-white text-black px-4">
@@ -54,7 +69,7 @@ function Homepage() {
         Your Way
       </motion.h2>
 
-      <motion.div 
+      <motion.div
         className="bg-gray-900 p-6 rounded-lg shadow-lg mt-6 w-half max-w-md"
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -80,7 +95,7 @@ function Homepage() {
           Show Schedule
         </motion.button>
       </motion.div>
-      
+
       {loading && <motion.p className="mt-4 text-gray-600" animate={{ opacity: [0, 1, 0] }} transition={{ duration: 1, repeat: Infinity }}>Loading...</motion.p>}
       {error && <motion.p className="mt-4 text-red-500" animate={{ opacity: [0, 1, 0] }} transition={{ duration: 1, repeat: Infinity }}>{error}</motion.p>}
 

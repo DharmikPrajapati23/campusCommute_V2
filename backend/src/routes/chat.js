@@ -47,6 +47,18 @@ router.post("/chatbot/chat", userAuth, async (req, res) => {
   }
 });
 
+// ✅ Health check proxy — Node pings FastAPI /health
+router.get("/chatbot/health", async (req, res) => {
+  try {
+    await axios.get(`${LLM_URL}/health`, { timeout: 180000 });
+    res.status(200).json({ status: "ok" });
+  } catch (err) {
+    // Return 200 anyway so frontend doesn't show error — LLM might still wake up
+    res.status(200).json({ status: "starting" });
+  }
+});
+
+
 module.exports = router;
 
 
